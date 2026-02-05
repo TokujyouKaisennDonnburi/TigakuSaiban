@@ -99,6 +99,11 @@ function updateTotalCount() {
 function showResult() {
   const total = votes.guilty + votes.notGuilty;
 
+  if (total === 0) {
+    alert("投票しやがれ");
+    return;
+  }
+
   // 有罪率計算（0票対策）
   const guiltyPercent =
     total === 0 ? 0 : Math.round((votes.guilty / total) * 100);
