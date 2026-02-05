@@ -39,6 +39,20 @@ const innocentImages = [
   "image/innocence2.jpg"
 ];
 
+/* ===== 判決文言（有罪率ごと・100%に近いほど重い） ===== */
+/** 有罪率100% */
+const verdict100 = "極刑だ！";
+/** 有罪率99〜75% */
+const verdict99to75 = "退学だ！出ていけ！";
+/** 有罪率74〜50% */
+const verdict74to50 = "停学だ！大人しくしてろ！";
+/** 有罪率49〜25% */
+const verdict49to25 = "謹慎を命ずる";
+/** 有罪率24〜1% */
+const verdict24to1 = "パンチ一発で許そう";
+/** 有罪率0% */
+const verdict0 = "これからも励むが良い。";
+
 /* ===== 投票数管理 ===== */
 let votes = {
   guilty: 0,
@@ -135,17 +149,31 @@ function showResult() {
     resultText.appendChild(span);
   });
 
-  // 背景画像を有罪率に応じて選択
+  // 背景画像・判決文言を有罪率に応じて選択（同じ範囲で分ける）
   const pageBg = document.getElementById("resultPageBg");
-  let images;
-  if (guiltyPercent === 100) images = guilty100Images;
-  else if (guiltyPercent >= 75) images = guilty99to75Images;
-  else if (guiltyPercent >= 50) images = guilty74to50Images;
-  else if (guiltyPercent >= 25) images = guilty49to25Images;
-  else if (guiltyPercent >= 1) images = guilty24to1Images;
-  else images = innocentImages;
+  let images, verdictMessage;
+  if (guiltyPercent === 100) {
+    images = guilty100Images;
+    verdictMessage = verdict100;
+  } else if (guiltyPercent >= 75) {
+    images = guilty99to75Images;
+    verdictMessage = verdict99to75;
+  } else if (guiltyPercent >= 50) {
+    images = guilty74to50Images;
+    verdictMessage = verdict74to50;
+  } else if (guiltyPercent >= 25) {
+    images = guilty49to25Images;
+    verdictMessage = verdict49to25;
+  } else if (guiltyPercent >= 1) {
+    images = guilty24to1Images;
+    verdictMessage = verdict24to1;
+  } else {
+    images = innocentImages;
+    verdictMessage = verdict0;
+  }
   const img = images[Math.floor(Math.random() * images.length)];
   pageBg.style.backgroundImage = `url(${img})`;
+  document.getElementById("verdictSpeechText").textContent = verdictMessage;
 
   // 画面切り替え
   document.getElementById("court").classList.add("hidden");
