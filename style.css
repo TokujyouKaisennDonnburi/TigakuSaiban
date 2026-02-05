@@ -167,13 +167,20 @@ button:active {
   z-index: 10;
 }
 
-/* ===== 判決画面レイアウト（下寄せ） ===== */
+/* ===== 判決画面レイアウト（大枠なし・画面最下部） ===== */
 .result-panel {
+  align-self: flex-end;
+  margin-bottom: 24px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  min-height: 500px;
-  padding-bottom: 48px;
+  width: 380px;
+  min-height: 320px;
+  padding: 32px 28px 28px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
 }
 
 .result-content {
