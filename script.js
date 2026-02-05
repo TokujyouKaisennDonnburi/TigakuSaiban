@@ -123,19 +123,8 @@ function showResult() {
   resultText.innerHTML = "";
   resultText.className = "verdict-letters " + (isGuilty ? "guilty" : "notGuilty");
 
-  // 「判決」を一文字ずつ落下
-  const verdictLabel = document.getElementById("verdictLabel");
-  verdictLabel.innerHTML = "";
-  "判決".split("").forEach((char, i) => {
-    const span = document.createElement("span");
-    span.className = "label-letter";
-    span.textContent = char;
-    span.style.animationDelay = `${i * 0.1}s`;
-    verdictLabel.appendChild(span);
-  });
-
-  // 「有罪」「無罪」を一文字ずつ落下（判決の後に少し遅れて開始）
-  const labelDelay = 0.25; // 判決アニメ後に余裕
+  // 「有罪」「無罪」を一文字ずつ落下
+  const labelDelay = 0;
   verdictWord.split("").forEach((char, i) => {
     const span = document.createElement("span");
     span.className = "verdict-letter";

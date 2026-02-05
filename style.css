@@ -211,6 +211,13 @@ button:active {
   min-height: 40px;
 }
 
+/* 判決ラベルが空のときは余白を詰める */
+.verdict-label:empty {
+  margin-top: 0;
+  margin-bottom: 0;
+  min-height: 0;
+}
+
 .verdict-label .label-letter {
   display: inline-block;
   animation: labelLetterDrop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
@@ -243,7 +250,7 @@ button:active {
   font-size: 88px;
   font-weight: 900;
   letter-spacing: 16px;
-  margin-top: 12px;
+  margin-top: 4px;
   min-height: 140px;
 }
 
