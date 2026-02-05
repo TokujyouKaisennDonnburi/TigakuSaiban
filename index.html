@@ -7,6 +7,11 @@
 </head>
 <body>
 
+<!-- 判決画面用：パネルより後ろの全画面背景 -->
+<div id="resultPageBg" class="hidden"></div>
+<!-- 背景の一番上中央のテキスト（有罪率で変化） -->
+<div id="resultTopTitle" class="result-top-title hidden" aria-hidden="true"></div>
+
 <div id="setup" class="panel">
   <h1>⚖ KD魔女裁判 ⚖</h1>
 
@@ -16,9 +21,10 @@
     placeholder="お題を入力"
   />
 
-  <button onclick="setRandomTopic()">お題をランダム設定</button>
-
-  <button onclick="startCourt()">裁判開始</button>
+  <div class="setup-buttons">
+    <button onclick="setRandomTopic()">お題をランダム設定</button>
+    <button onclick="startCourt()">裁判開始</button>
+  </div>
 </div>
 
 <div id="court" class="panel hidden">
@@ -38,15 +44,18 @@
   <button class="resultBtn" onclick="showResult()">判決を見る</button>
 </div>
 
-<div id="result" class="panel hidden">
-  <!-- 背景画像レイヤー -->
-  <div id="resultBg"></div>
-
+<div id="result" class="panel hidden result-panel">
   <button class="backBtn" onclick="resetCourt()">← 戻る</button>
 
-  <h2>最終判決</h2>
-  <p id="voteSummary"></p>
-  <p id="resultText"></p>
+  <div class="result-content">
+    <div class="verdict-speech-bubble" aria-hidden="true">
+      <span id="verdictSpeechText" class="verdict-speech-bubble-text">判決を言い渡す</span>
+    </div>
+    <h2 id="resultTitle">最終判決</h2>
+    <p id="voteSummary"></p>
+    <div id="verdictLabel" class="verdict-label verdict-label-letters"></div>
+    <div id="resultText" class="verdict-letters"></div>
+  </div>
 </div>
 
 <script src="script.js"></script>

@@ -19,19 +19,53 @@ const presetTopics = [
   "リモート報告を怠るのは罪か？"
 ];
 
-/* ===== 判決背景画像 ===== */
-const guiltyImages = [
-  "image/guilty1.png",
-  "image/guilty2.png",
-  "image/1.png",
-  "image/2.png",
-  "image/3.png"
+/* ===== 判決背景画像（有罪率ごと） ===== */
+/** 有罪率100% → guilty1 or guilty2 */
+const guilty100Images = [
+  "image/guilty1.jpg",
+  "image/guilty2.jpg"
+];
+/** 有罪率99〜75% → 1.jpg */
+const guilty99to75Images = ["image/1.jpg"];
+/** 有罪率74〜50% → 2.jpg */
+const guilty74to50Images = ["image/2.jpg"];
+/** 有罪率49〜25% → 3.jpg */
+const guilty49to25Images = ["image/3.jpg"];
+/** 有罪率24〜1% → 4.jpg */
+const guilty24to1Images = ["image/4.jpg"];
+/** 有罪率0% → innocence1 or innocence2 */
+const innocentImages = [
+  "image/innocence1.jpg",
+  "image/innocence2.jpg"
 ];
 
-const innocentImages = [
-  "image/innocence1.png",
-  "image/innocence2.png"
-];
+/* ===== 判決文言（有罪率ごと・100%に近いほど重い） ===== */
+/** 有罪率100% */
+const verdict100 = "極刑だ！";
+/** 有罪率99〜75% */
+const verdict99to75 = "退学だ！出ていけ！";
+/** 有罪率74〜50% */
+const verdict74to50 = "停学だ！大人しくしてろ！";
+/** 有罪率49〜25% */
+const verdict49to25 = "謹慎を命ずる";
+/** 有罪率24〜1% */
+const verdict24to1 = "パンチ一発で許そう";
+/** 有罪率0% */
+const verdict0 = "これからも励むが良い。";
+
+/* ===== 背景上部テキスト（有罪率ごと・100%に近いほど重い） ===== */
+/** 有罪率100% */
+const topTitle100 = "✝️Death坪内✝️";
+/** 有罪率99〜75% */
+const topTitle99to75 = "シリアルキラー大村";
+/** 有罪率74〜50% */
+const topTitle74to50 = "ブチギレしまんちゅ";
+/** 有罪率49〜25% */
+const topTitle49to25 = "ゴリパワー大村";
+/** 有罪率24〜1% */
+const topTitle24to1 = "隣の雷大村";
+/** 有罪率0% */
+const topTitle0 = "大天使坪内";
 
 /* ===== 投票数管理 ===== */
 let votes = {
@@ -99,6 +133,11 @@ function updateTotalCount() {
 function showResult() {
   const total = votes.guilty + votes.notGuilty;
 
+  if (total === 0) {
+    alert("投票しやがれ");
+    return;
+  }
+
   // 有罪率計算（0票対策）
   const guiltyPercent =
     total === 0 ? 0 : Math.round((votes.guilty / total) * 100);
@@ -108,19 +147,59 @@ function showResult() {
     `有罪 ${guiltyPercent}％`;
 
   const isGuilty = guiltyPercent >= 50;
+  const verdictWord = isGuilty ? "有罪" : "無罪";
   const resultText = document.getElementById("resultText");
 
-  resultText.textContent = `判決：${isGuilty ? "有罪" : "無罪"}`;
-  resultText.className = isGuilty ? "guilty" : "notGuilty";
+  resultText.innerHTML = "";
+  resultText.className = "verdict-letters " + (isGuilty ? "guilty" : "notGuilty");
 
-  // 背景画像をランダム設定
-  const bg = document.getElementById("resultBg");
-  const images = isGuilty ? guiltyImages : innocentImages;
+  // 「有罪」「無罪」を一文字ずつ落下
+  const labelDelay = 0;
+  verdictWord.split("").forEach((char, i) => {
+    const span = document.createElement("span");
+    span.className = "verdict-letter";
+    span.textContent = char;
+    span.style.animationDelay = `${labelDelay + i * 0.9}s`;
+    resultText.appendChild(span);
+  });
+
+  // 背景画像・判決文言・上部テキストを有罪率に応じて選択（同じ範囲で分ける）
+  const pageBg = document.getElementById("resultPageBg");
+  let images, verdictMessage, topTitle;
+  if (guiltyPercent === 100) {
+    images = guilty100Images;
+    verdictMessage = verdict100;
+    topTitle = topTitle100;
+  } else if (guiltyPercent >= 75) {
+    images = guilty99to75Images;
+    verdictMessage = verdict99to75;
+    topTitle = topTitle99to75;
+  } else if (guiltyPercent >= 50) {
+    images = guilty74to50Images;
+    verdictMessage = verdict74to50;
+    topTitle = topTitle74to50;
+  } else if (guiltyPercent >= 25) {
+    images = guilty49to25Images;
+    verdictMessage = verdict49to25;
+    topTitle = topTitle49to25;
+  } else if (guiltyPercent >= 1) {
+    images = guilty24to1Images;
+    verdictMessage = verdict24to1;
+    topTitle = topTitle24to1;
+  } else {
+    images = innocentImages;
+    verdictMessage = verdict0;
+    topTitle = topTitle0;
+  }
   const img = images[Math.floor(Math.random() * images.length)];
-  bg.style.backgroundImage = `url(${img})`;
+  pageBg.style.backgroundImage = `url(${img})`;
+  document.getElementById("verdictSpeechText").textContent = verdictMessage;
+  document.getElementById("resultTopTitle").textContent = topTitle;
 
   // 画面切り替え
   document.getElementById("court").classList.add("hidden");
+  document.getElementById("resultPageBg").classList.remove("hidden");
+  document.getElementById("resultTopTitle").classList.remove("hidden");
   document.getElementById("result").classList.remove("hidden");
 }
 
@@ -139,5 +218,7 @@ function backToSetup() {
 function resetCourt() {
   votes = { guilty: 0, notGuilty: 0 };
   document.getElementById("result").classList.add("hidden");
+  document.getElementById("resultPageBg").classList.add("hidden");
+  document.getElementById("resultTopTitle").classList.add("hidden");
   document.getElementById("setup").classList.remove("hidden");
 }
