@@ -181,10 +181,81 @@ button:active {
   border: none;
   box-shadow: none;
   border-radius: 0;
+  overflow: visible;
 }
 
 .result-content {
   margin-top: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: visible;
+}
+
+/* 吹き出し：右に詰めて配置、縦長・狭め（縦書き用）、尖りは左を指す */
+.verdict-speech-bubble {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-self: flex-end;
+  margin-bottom: 12px;
+  margin-right: -8px;
+  padding: 10px 12px 10px 12px;
+  min-height: 8em;
+  background: #fff;
+  border: 2px solid #333;
+  border-radius: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  animation: speechBubbleFromTop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  overflow: visible;
+}
+
+/* 吹き出しの左向き三角（尖った部分が左を指す） */
+.verdict-speech-bubble::after {
+  content: "";
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 10px solid transparent;
+  border-right-color: #333;
+  border-right-width: 12px;
+  margin-right: -2px;
+}
+
+.verdict-speech-bubble::before {
+  content: "";
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 8px solid transparent;
+  border-right-color: #fff;
+  border-right-width: 10px;
+  margin-right: 2px;
+  z-index: 1;
+}
+
+.verdict-speech-bubble-text {
+  position: relative;
+  z-index: 2;
+  font-size: 15px;
+  color: #333;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  letter-spacing: 0.2em;
+}
+
+@keyframes speechBubbleFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-30px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .result-content h2 {
