@@ -10,24 +10,20 @@
 <div id="setup" class="panel">
   <h1>⚖ KD魔女裁判 ⚖</h1>
 
-  <textarea id="topicInput" placeholder="お題を改行で入力&#10;（例：山田太郎がGitHubの使い方を忘れたことについて）"></textarea>
+  <input
+    type="text"
+    id="topicInput"
+    placeholder="お題を入力"
+  />
 
-  <div class="option">
-    <h3>お題選択</h3>
-    <label><input type="radio" name="topicMode" value="random" checked> ランダム</label>
-    <label><input type="radio" name="topicMode" value="manual"> 先頭を使用</label>
-  </div>
-
-  <div class="option">
-    <h3>投票モード</h3>
-    <label><input type="radio" name="voteMode" value="all" checked> 投票モード</label>
-    <label><input type="radio" name="voteMode" value="rep"> 代表者モード</label>
-  </div>
+  <button onclick="setRandomTopic()">お題をランダム設定</button>
 
   <button onclick="startCourt()">裁判開始</button>
 </div>
 
 <div id="court" class="panel hidden">
+  <button class="backBtn" onclick="backToSetup()">← 戻る</button>
+
   <h2 id="topic"></h2>
 
   <div class="buttons">
@@ -35,13 +31,22 @@
     <button class="notGuiltyBtn" onclick="vote('notGuilty')">無罪</button>
   </div>
 
-  <button class="resultBtn" onclick="showResult()">結果を見る</button>
+  <p class="voteCount">
+    投票数：<span id="totalCount">0</span>票
+  </p>
+
+  <button class="resultBtn" onclick="showResult()">判決を見る</button>
 </div>
 
 <div id="result" class="panel hidden">
-  <h2>判決</h2>
+  <!-- 背景画像レイヤー -->
+  <div id="resultBg"></div>
+
+  <button class="backBtn" onclick="resetCourt()">← 戻る</button>
+
+  <h2>最終判決</h2>
+  <p id="voteSummary"></p>
   <p id="resultText"></p>
-  <button onclick="resetCourt()">次の裁判へ</button>
 </div>
 
 <script src="script.js"></script>

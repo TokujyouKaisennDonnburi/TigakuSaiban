@@ -1,3 +1,10 @@
+/* =====================================================
+   KD魔女裁判 - style.css
+   ・裁判所っぽい世界観
+   ・画面が切り替わっても同じ見た目になる設計
+   ===================================================== */
+
+/* ===== 共通設定 ===== */
 * {
   box-sizing: border-box;
   font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
@@ -13,17 +20,22 @@ body {
   color: #f5f5f5;
 }
 
+/* ===== メインパネル ===== */
 .panel {
+  position: relative;                 /* 戻るボタンや背景用 */
   width: 560px;
+  min-height: 420px;
+  padding: 56px 40px 40px;             /* 上を広めにして被り防止 */
   background: #2f2b25;
   border: 4px solid #b89b5e;
   border-radius: 14px;
-  padding: 32px 40px;
-  box-shadow: 0 0 40px rgba(0,0,0,0.9);
   text-align: center;
+  overflow: hidden;                   /* 背景画像はみ出し防止 */
+  box-shadow: 0 0 40px rgba(0,0,0,0.9);
   animation: fadeIn 0.6s ease;
 }
 
+/* ===== 見出し ===== */
 h1 {
   font-size: 38px;
   color: #e6d7a3;
@@ -33,36 +45,31 @@ h1 {
 
 h2 {
   font-size: 26px;
-  margin-bottom: 24px;
+  margin-bottom: 18px;
 }
 
-textarea {
+/* ===== お題表示（長文対応） ===== */
+#topic {
+  margin-top: 20px;                   /* 戻るボタンと被らない */
+  margin-bottom: 18px;
+  font-size: 24px;
+  line-height: 1.4;
+  word-break: break-word;             /* 長文でも折り返す */
+}
+
+/* ===== 入力欄 ===== */
+input[type="text"] {
   width: 100%;
-  height: 130px;
+  padding: 12px;
+  font-size: 16px;
   background: #1c1914;
   border: 2px solid #8a7444;
   border-radius: 8px;
   color: #f5f5f5;
-  padding: 12px;
-  font-size: 16px;
-  resize: none;
+  margin-bottom: 10px;
 }
 
-.option {
-  margin-top: 18px;
-}
-
-label {
-  margin: 0 12px;
-  cursor: pointer;
-}
-
-.buttons {
-  display: flex;
-  justify-content: space-between;
-  margin: 24px 0;
-}
-
+/* ===== ボタン共通 ===== */
 button {
   padding: 14px 32px;
   font-size: 18px;
@@ -85,25 +92,74 @@ button:active {
   box-shadow: 0 2px 0 #1a1713;
 }
 
+/* ===== サブ操作：お題ランダムボタン ===== */
+#setup button:first-of-type {
+  font-size: 14px;                    /* 小さくして主張を弱める */
+  padding: 6px 14px;
+  margin-top: 6px;
+  margin-bottom: 18px;
+  box-shadow: none;
+  opacity: 0.85;
+}
+
+/* ===== 投票ボタン ===== */
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 18px;                          /* 有罪・無罪の間隔を短く */
+  margin: 20px 0;
+}
+
+.buttons button {
+  width: 180px;                       /* 横幅を統一 */
+  font-size: 20px;
+}
+
+/* 有罪 */
 .guiltyBtn {
   border-color: #b33a3a;
   background: linear-gradient(#5a1e1e, #3d1414);
 }
 
+/* 無罪 */
 .notGuiltyBtn {
   border-color: #3ab36a;
   background: linear-gradient(#1e5a36, #143d26);
 }
 
-.resultBtn {
+/* ===== 投票数 ===== */
+.voteCount {
+  font-size: 16px;
+  opacity: 0.85;
+  margin-top: 8px;
+}
+
+/* ===== 戻るボタン（左上固定） ===== */
+.backBtn {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  padding: 6px 14px;
+  font-size: 13px;
+  border-radius: 6px;
+  background: linear-gradient(#444, #222);
+  border-color: #777;
+  z-index: 10;
+}
+
+/* ===== 結果表示 ===== */
+#voteSummary {
+  font-size: 20px;
   margin-top: 10px;
 }
 
 #resultText {
-  font-size: 24px;
-  letter-spacing: 2px;
+  font-size: 30px;
+  margin-top: 14px;
+  letter-spacing: 3px;
 }
 
+/* 有罪・無罪の色 */
 .guilty {
   color: #ff4d4d;
   text-shadow: 0 0 15px rgba(255,77,77,0.8);
@@ -114,10 +170,31 @@ button:active {
   text-shadow: 0 0 15px rgba(92,255,157,0.8);
 }
 
+/* ===== 結果画面の背景画像 ===== */
+#resultBg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.18;                      /* 文字が読めるよう薄く */
+  filter: blur(3px);
+  z-index: 0;
+}
+
+/* 結果画面の文字を前面に */
+#result h2,
+#voteSummary,
+#resultText {
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== 非表示 ===== */
 .hidden {
   display: none;
 }
 
+/* ===== フェードイン ===== */
 @keyframes fadeIn {
   from {
     opacity: 0;
