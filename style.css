@@ -187,20 +187,20 @@ button:active {
 .result-content {
   margin-top: auto;
   position: relative;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow: visible;
 }
 
-/* 吹き出し：右に詰めて配置、縦長・狭め（縦書き用）、尖りは左を指す */
+/* 吹き出し：親の右端に絶対配置、縦長・狭め（縦書き用）、尖りは左を指す */
 .verdict-speech-bubble {
-  position: relative;
+  position: absolute;
+  top: -11em;
+  right: -90px;
   display: inline-flex;
   justify-content: center;
-  align-self: flex-end;
-  margin-bottom: 12px;
-  margin-right: -8px;
   padding: 10px 12px 10px 12px;
   min-height: 8em;
   background: #fff;
