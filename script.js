@@ -146,7 +146,7 @@ function showResult() {
   document.getElementById("voteSummary").textContent =
     `有罪 ${guiltyPercent}％`;
 
-  const isGuilty = guiltyPercent >= 50;
+  const isGuilty = guiltyPercent > 0;  // 有罪率0%以外は有罪
   const verdictWord = isGuilty ? "有罪" : "無罪";
   const resultText = document.getElementById("resultText");
 
