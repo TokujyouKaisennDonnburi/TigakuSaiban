@@ -20,17 +20,21 @@ const presetTopics = [
 ];
 
 /* ===== 判決背景画像 ===== */
+/** 有罪率100%のときのみ使用（guilty1 or guilty2 をランダム） */
+const guilty100Images = [
+  "image/guilty1.jpg",
+  "image/guilty2.jpg"
+];
+
 const guiltyImages = [
-  "image/guilty1.png",
-  "image/guilty2.png",
-  "image/1.png",
-  "image/2.png",
-  "image/3.png"
+  "image/1.jpg",
+  "image/2.jpg",
+  "image/3.jpg"
 ];
 
 const innocentImages = [
-  "image/innocence1.png",
-  "image/innocence2.png"
+  "image/innocence1.jpg",
+  "image/innocence2.jpg"
 ];
 
 /* ===== 投票数管理 ===== */
@@ -118,14 +122,17 @@ function showResult() {
   resultText.textContent = `判決：${isGuilty ? "有罪" : "無罪"}`;
   resultText.className = isGuilty ? "guilty" : "notGuilty";
 
-  // 背景画像をランダム設定
-  const bg = document.getElementById("resultBg");
-  const images = isGuilty ? guiltyImages : innocentImages;
+  // 背景画像をパネルより後ろの全画面レイヤーに設定（有罪100%のときは guilty1 or guilty2 のみ）
+  const pageBg = document.getElementById("resultPageBg");
+  const images = isGuilty
+    ? (guiltyPercent === 100 ? guilty100Images : guiltyImages)
+    : innocentImages;
   const img = images[Math.floor(Math.random() * images.length)];
-  bg.style.backgroundImage = `url(${img})`;
+  pageBg.style.backgroundImage = `url(${img})`;
 
   // 画面切り替え
   document.getElementById("court").classList.add("hidden");
+  document.getElementById("resultPageBg").classList.remove("hidden");
   document.getElementById("result").classList.remove("hidden");
 }
 
@@ -144,5 +151,6 @@ function backToSetup() {
 function resetCourt() {
   votes = { guilty: 0, notGuilty: 0 };
   document.getElementById("result").classList.add("hidden");
+  document.getElementById("resultPageBg").classList.add("hidden");
   document.getElementById("setup").classList.remove("hidden");
 }

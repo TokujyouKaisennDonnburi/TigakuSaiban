@@ -20,9 +20,10 @@ body {
   color: #f5f5f5;
 }
 
-/* ===== メインパネル ===== */
+/* ===== メインパネル（背景レイヤーより手前に表示） ===== */
 .panel {
-  position: relative;                 /* 戻るボタンや背景用 */
+  position: relative;
+  z-index: 2;
   width: 560px;
   min-height: 420px;
   padding: 56px 40px 40px;             /* 上を広めにして被り防止 */
@@ -30,9 +31,21 @@ body {
   border: 4px solid #b89b5e;
   border-radius: 14px;
   text-align: center;
-  overflow: hidden;                   /* 背景画像はみ出し防止 */
+  overflow: hidden;
   box-shadow: 0 0 40px rgba(0,0,0,0.9);
   animation: fadeIn 0.6s ease;
+}
+
+/* ===== 判決画面：パネルより後ろの全画面背景 ===== */
+#resultPageBg {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  background-size: contain;           /* 画像全体が収まる（見切れ防止） */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #15130f;          /* 余白はボディに合わせる */
+  opacity: 0.35;                     /* パネル背後で程よく見えるように */
 }
 
 /* ===== 見出し ===== */
@@ -177,24 +190,6 @@ button:active {
   text-shadow: 0 0 15px rgba(92,255,157,0.8);
 }
 
-/* ===== 結果画面の背景画像 ===== */
-#resultBg {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  opacity: 0.18;                      /* 文字が読めるよう薄く */
-  filter: blur(3px);
-  z-index: 0;
-}
-
-/* 結果画面の文字を前面に */
-#result h2,
-#voteSummary,
-#resultText {
-  position: relative;
-  z-index: 1;
-}
 
 /* ===== 非表示 ===== */
 .hidden {
