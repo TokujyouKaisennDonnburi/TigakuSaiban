@@ -19,19 +19,21 @@ const presetTopics = [
   "リモート報告を怠るのは罪か？"
 ];
 
-/* ===== 判決背景画像 ===== */
-/** 有罪率100%のときのみ使用（guilty1 or guilty2 をランダム） */
+/* ===== 判決背景画像（有罪率ごと） ===== */
+/** 有罪率100% → guilty1 or guilty2 */
 const guilty100Images = [
   "image/guilty1.jpg",
   "image/guilty2.jpg"
 ];
-
-const guiltyImages = [
-  "image/1.jpg",
-  "image/2.jpg",
-  "image/3.jpg"
-];
-
+/** 有罪率99〜75% → 1.jpg */
+const guilty99to75Images = ["image/1.jpg"];
+/** 有罪率74〜50% → 2.jpg */
+const guilty74to50Images = ["image/2.jpg"];
+/** 有罪率49〜25% → 3.jpg */
+const guilty49to25Images = ["image/3.jpg"];
+/** 有罪率24〜1% → 4.jpg */
+const guilty24to1Images = ["image/4.jpg"];
+/** 有罪率0% → innocence1 or innocence2 */
 const innocentImages = [
   "image/innocence1.jpg",
   "image/innocence2.jpg"
@@ -133,11 +135,15 @@ function showResult() {
     resultText.appendChild(span);
   });
 
-  // 背景画像をパネルより後ろの全画面レイヤーに設定（有罪100%のときは guilty1 or guilty2 のみ）
+  // 背景画像を有罪率に応じて選択
   const pageBg = document.getElementById("resultPageBg");
-  const images = isGuilty
-    ? (guiltyPercent === 100 ? guilty100Images : guiltyImages)
-    : innocentImages;
+  let images;
+  if (guiltyPercent === 100) images = guilty100Images;
+  else if (guiltyPercent >= 75) images = guilty99to75Images;
+  else if (guiltyPercent >= 50) images = guilty74to50Images;
+  else if (guiltyPercent >= 25) images = guilty49to25Images;
+  else if (guiltyPercent >= 1) images = guilty24to1Images;
+  else images = innocentImages;
   const img = images[Math.floor(Math.random() * images.length)];
   pageBg.style.backgroundImage = `url(${img})`;
 
