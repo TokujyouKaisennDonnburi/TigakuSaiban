@@ -167,29 +167,154 @@ button:active {
   z-index: 10;
 }
 
+/* ===== 判決画面レイアウト（下寄せ） ===== */
+.result-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 500px;
+  padding-bottom: 48px;
+}
+
+.result-content {
+  margin-top: auto;
+}
+
 /* ===== 結果表示 ===== */
 #voteSummary {
   font-size: 20px;
   margin-top: 10px;
+  opacity: 0.9;
 }
 
-#resultText {
-  font-size: 30px;
-  margin-top: 14px;
-  letter-spacing: 3px;
+.verdict-label {
+  font-size: 28px;
+  margin-top: 24px;
+  margin-bottom: 12px;
+  letter-spacing: 4px;
+  color: #e6d7a3;
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+  min-height: 40px;
 }
 
-/* 有罪・無罪の色 */
-.guilty {
-  color: #ff4d4d;
-  text-shadow: 0 0 15px rgba(255,77,77,0.8);
+.verdict-label .label-letter {
+  display: inline-block;
+  animation: labelLetterDrop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  opacity: 0;
+  text-shadow: 0 0 12px rgba(230,215,163,0.8);
 }
 
-.notGuilty {
-  color: #5cff9d;
-  text-shadow: 0 0 15px rgba(92,255,157,0.8);
+@keyframes labelLetterDrop {
+  from {
+    opacity: 0;
+    transform: translateY(-80px) scale(0.6);
+  }
+  85% {
+    opacity: 1;
+    transform: translateY(3px) scale(1.02);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
+/* 判決・無罪/有罪：一文字ずつ落下アニメーション（仰々しく） */
+.verdict-letters {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 88px;
+  font-weight: 900;
+  letter-spacing: 16px;
+  margin-top: 24px;
+  min-height: 140px;
+}
+
+.verdict-letter {
+  display: inline-block;
+  animation: letterDrop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  opacity: 0;
+  transform: translateY(-120px);
+}
+
+@keyframes letterDrop {
+  from {
+    opacity: 0;
+    transform: translateY(-120px) scale(0.4);
+  }
+  80% {
+    opacity: 1;
+    transform: translateY(6px) scale(1.05);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 有罪・無罪の色（仰々しく） */
+.guilty .verdict-letter {
+  color: #ff3333;
+  -webkit-text-stroke: 2px rgba(0,0,0,0.6);
+  text-shadow: 0 0 30px rgba(255,51,51,1),
+               0 0 60px rgba(255,77,77,0.8),
+               0 0 90px rgba(255,100,100,0.5),
+               0 4px 0 rgba(0,0,0,0.8),
+               0 6px 20px rgba(0,0,0,0.8);
+  animation: letterDrop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+             verdictPulseRed 2.5s ease-in-out 2s infinite;
+}
+
+.notGuilty .verdict-letter {
+  color: #22ff88;
+  -webkit-text-stroke: 2px rgba(0,0,0,0.6);
+  text-shadow: 0 0 30px rgba(34,255,136,1),
+               0 0 60px rgba(92,255,157,0.8),
+               0 0 90px rgba(100,255,180,0.5),
+               0 4px 0 rgba(0,0,0,0.8),
+               0 6px 20px rgba(0,0,0,0.8);
+  animation: letterDrop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+             verdictPulseGreen 2.5s ease-in-out 2s infinite;
+}
+
+@keyframes verdictPulseRed {
+  0%, 100% {
+    text-shadow: 0 0 25px rgba(255,51,51,0.9),
+                 0 0 50px rgba(255,77,77,0.7),
+                 0 0 80px rgba(255,100,100,0.4),
+                 0 4px 0 rgba(0,0,0,0.8),
+                 0 6px 20px rgba(0,0,0,0.8);
+  }
+  50% {
+    text-shadow: 0 0 40px rgba(255,51,51,1),
+                 0 0 80px rgba(255,77,77,1),
+                 0 0 120px rgba(255,100,100,0.6),
+                 0 4px 0 rgba(0,0,0,0.8),
+                 0 6px 20px rgba(0,0,0,0.8);
+  }
+}
+
+@keyframes verdictPulseGreen {
+  0%, 100% {
+    text-shadow: 0 0 25px rgba(34,255,136,0.9),
+                 0 0 50px rgba(92,255,157,0.7),
+                 0 0 80px rgba(100,255,180,0.4),
+                 0 4px 0 rgba(0,0,0,0.8),
+                 0 6px 20px rgba(0,0,0,0.8);
+  }
+  50% {
+    text-shadow: 0 0 40px rgba(34,255,136,1),
+                 0 0 80px rgba(92,255,157,1),
+                 0 0 120px rgba(100,255,180,0.6),
+                 0 4px 0 rgba(0,0,0,0.8),
+                 0 6px 20px rgba(0,0,0,0.8);
+  }
+}
 
 /* ===== 非表示 ===== */
 .hidden {

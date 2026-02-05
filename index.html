@@ -42,12 +42,15 @@
   <button class="resultBtn" onclick="showResult()">判決を見る</button>
 </div>
 
-<div id="result" class="panel hidden">
+<div id="result" class="panel hidden result-panel">
   <button class="backBtn" onclick="resetCourt()">← 戻る</button>
 
-  <h2>最終判決</h2>
-  <p id="voteSummary"></p>
-  <p id="resultText"></p>
+  <div class="result-content">
+    <h2 id="resultTitle">最終判決</h2>
+    <p id="voteSummary"></p>
+    <div id="verdictLabel" class="verdict-label verdict-label-letters"></div>
+    <div id="resultText" class="verdict-letters"></div>
+  </div>
 </div>
 
 <script src="script.js"></script>

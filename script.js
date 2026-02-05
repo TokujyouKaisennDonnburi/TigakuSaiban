@@ -117,10 +117,32 @@ function showResult() {
     `有罪 ${guiltyPercent}％`;
 
   const isGuilty = guiltyPercent >= 50;
+  const verdictWord = isGuilty ? "有罪" : "無罪";
   const resultText = document.getElementById("resultText");
 
-  resultText.textContent = `判決：${isGuilty ? "有罪" : "無罪"}`;
-  resultText.className = isGuilty ? "guilty" : "notGuilty";
+  resultText.innerHTML = "";
+  resultText.className = "verdict-letters " + (isGuilty ? "guilty" : "notGuilty");
+
+  // 「判決」を一文字ずつ落下
+  const verdictLabel = document.getElementById("verdictLabel");
+  verdictLabel.innerHTML = "";
+  "判決".split("").forEach((char, i) => {
+    const span = document.createElement("span");
+    span.className = "label-letter";
+    span.textContent = char;
+    span.style.animationDelay = `${i * 0.1}s`;
+    verdictLabel.appendChild(span);
+  });
+
+  // 「有罪」「無罪」を一文字ずつ落下（判決の後に少し遅れて開始）
+  const labelDelay = 0.25; // 判決アニメ後に余裕
+  verdictWord.split("").forEach((char, i) => {
+    const span = document.createElement("span");
+    span.className = "verdict-letter";
+    span.textContent = char;
+    span.style.animationDelay = `${labelDelay + i * 0.9}s`;
+    resultText.appendChild(span);
+  });
 
   // 背景画像をパネルより後ろの全画面レイヤーに設定（有罪100%のときは guilty1 or guilty2 のみ）
   const pageBg = document.getElementById("resultPageBg");
